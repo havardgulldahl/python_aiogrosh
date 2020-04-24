@@ -14,20 +14,19 @@ class GroshApp(object):
         self._headers = {
             "Authorization": basicPassword.encode()
         }
-        self.shoppingLists = []
+        self.lists = []
 
     async def startup(self) -> None:
         self.session = ClientSession(headers=self._headers)
 
 
-    async def getShoppingLists(self) -> List:
+    async def getLists(self) -> List:
         async with self.session.get(self.apiUrl + "/users/me/households") as resp:
-            self.shoppingLists = await resp.json()
-            print(self.shoppingLists)
-            return self.shoppingLists
+            self.lists = await resp.json()
+            return self.lists
 
     async def getList(self, listId:int) -> Dict:
         async with self.session.get(self.apiUrl + f"/households/{listId}/current") as resp:
-            list = await resp.json()
-            return list
+            _list = await resp.json()
+            return _list
                 
